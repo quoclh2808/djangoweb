@@ -1,0 +1,74 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+
+                <!-- Errors messages -->
+                <div class="col-sm-9">
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">Tên người dùng và mật khẩu của bạn không khớp. Vui lòng thử lại.</div>
+                    {% else %}
+                        {% if next %}
+                            {% if user.is_authenticated %}
+                                <div class="alert alert-info">Tài khoản của bạn không có quyền truy cập vào trang này. Tiến hành với,
+                                    vui lòng đăng nhập bằng tài khoản có quyền truy cập.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">Vui lòng đăng nhập để xem trang này.</div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+
+                <!-- Form - Login -->
+                <form method="post" action="{% url 'login' %}" class="form-horizontal">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+
+                            <!-- Form field - username -->
+                            <input type="text"
+                                   placeholder="Tên tài khoản"
+                                   class="form-control"
+                                   name="username">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+
+                            <!-- Form field - password -->
+                            <input type="password"
+                                   placeholder="Mật khẩu"
+                                   class="form-control"
+                                   name="password">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+
+                            <input type="submit" class="btn  btn-primary btn-block" value="Login"/>
+
+                        </div>
+                    </div>
+
+                    <!-- Form field - next -->
+                    <!-- Used to configure redirect after successful login -->
+                    <input type="hidden" name="next" value="{% url 'blog:home' %}"/>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
